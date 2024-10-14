@@ -4,6 +4,10 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
+import * as dotenv from 'dotenv';
+import mongoose from 'mongoose';
+
+dotenv.config(); // must be enabled for environment variables
 
 const app = express();
 
@@ -20,3 +24,9 @@ const server = http.createServer(app);
 server.listen(8080, () => {
     console.log('Server running on http://localhost:8080/');
 });
+
+const MONGO_URL = `mongodb+srv://caowens256:${process.env.DB_PW}@cluster0.onhs4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGO_URL);
+mongoose.connection.on('error', (error: Error) => console.log(error));
